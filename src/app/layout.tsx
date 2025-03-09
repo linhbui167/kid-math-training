@@ -1,15 +1,13 @@
+import { ModalProvider } from "@/context/ModalContext";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Coiny } from "next/font/google";
 import "./globals.css";
+import { AppProvider } from "@/context/AppContext";
+import ConfigPopover from "@/components/ConfigPopover";
+import { ConfigProvider } from "@/context/ConfigContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const coinyFont = Coiny({
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -24,10 +22,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${coinyFont.className} antialiased`}>
+        <ConfigProvider>
+          <AppProvider>
+            <div className="absolute top-4 right-4">
+              <ConfigPopover />
+            </div>
+            <ModalProvider>{children}</ModalProvider>
+          </AppProvider>
+        </ConfigProvider>
       </body>
     </html>
   );
