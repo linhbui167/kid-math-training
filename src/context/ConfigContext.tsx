@@ -1,5 +1,6 @@
 "use client";
 
+import { TRAIN_TYPES } from "@/utils/const";
 import React, {
   createContext,
   useState,
@@ -8,13 +9,13 @@ import React, {
   ReactNode,
 } from "react";
 
-export type TrainType = "basic" | "advanced";
-
 interface AppConfig {
   enable_celebrity: boolean;
   persist_progress: boolean;
   up_level_period: number;
-  train_type: TrainType;
+  count_finished: number;
+  is_junior: boolean;
+  train_type: TRAIN_TYPES[];
 }
 
 interface ConfigContextProps {
@@ -26,8 +27,10 @@ interface ConfigContextProps {
 const defaultConfig: AppConfig = {
   enable_celebrity: true,
   persist_progress: false,
-  train_type: "basic",
-  up_level_period: 5,
+  train_type: [TRAIN_TYPES.MULTIPLY],
+  is_junior: false,
+  count_finished: 30,
+  up_level_period: 3,
 };
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);

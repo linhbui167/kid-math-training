@@ -56,7 +56,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
 
   const startCelebration = () => {
     confetti({
-      particleCount: 500,
+      particleCount: 200,
       spread: 100,
       scalar: 3,
       ticks: 500,

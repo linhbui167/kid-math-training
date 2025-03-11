@@ -1,17 +1,20 @@
 "use client";
 
 import { useAppContext } from "@/context/AppContext";
-import { TrainType, useConfig } from "@/context/ConfigContext";
-import { Popover, Transition } from "@headlessui/react";
+import { useConfig } from "@/context/ConfigContext";
+import { Input, Popover, Transition } from "@headlessui/react";
 import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment } from "react";
+import { Fragment, useRef } from "react";
+import CheckboxGroup from "../CheckboxGroup";
+import { TRAIN_TYPES } from "@/utils/const";
 
 export default function ConfigPopover() {
   const { handleClearState } = useAppContext();
+  const ref = useRef(null);
   const { config, updateConfig, clearConfig } = useConfig();
 
   return (
-    <Popover className="relative">
+    <Popover className="relative" ref={ref}>
       <Popover.Button className="p-2 rounded-full hover:bg-gray-700">
         <Cog6ToothIcon className="w-8 h-6 text-white" />
       </Popover.Button>
@@ -37,7 +40,6 @@ export default function ConfigPopover() {
           </div>
 
           <div className="space-y-4">
-            {/* Enable Celebrity */}
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -49,11 +51,10 @@ export default function ConfigPopover() {
                 className="accent-indigo-500 w-7 h-4"
               />
               <label htmlFor="enable_celebrity" className="text-sm">
-                Enable Celebrity
+                Show pháo hoa
               </label>
             </div>
 
-            {/* Persist Progress */}
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
@@ -65,53 +66,98 @@ export default function ConfigPopover() {
                 className="accent-indigo-500 w-7 h-4"
               />
               <label htmlFor="persist_progress" className="text-sm">
-                Persist Progress
+                Lưu tiến trình
               </label>
             </div>
 
-            {/* Persist Progress */}
+            <div className="flex items-center gap-2">
+              <label htmlFor="up_level_period" className="text-sm">
+                <span>Chuyển màu sau </span>
+                <input
+                  type="number"
+                  value={config.up_level_period}
+                  id="up_level_period"
+                  onChange={(e) =>
+                    updateConfig({ up_level_period: Number(e.target.value) })
+                  }
+                  className="accent-indigo-500 w-7 h-7 text-center bordered"
+                />{" "}
+                <span> lần đúng</span>
+              </label>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <label htmlFor="up_level_period" className="text-sm">
+                <span>Hoàn thành sau </span>{" "}
+                <input
+                  type="number"
+                  value={config.count_finished}
+                  id="up_level_period"
+                  onChange={(e) =>
+                    updateConfig({ count_finished: Number(e.target.value) })
+                  }
+                  className="accent-indigo-500 w-7 h-7 text-center"
+                />{" "}
+                <span> lần đúng</span>
+              </label>
+            </div>
+
             <div className="flex items-center gap-2">
               <input
-                type="number"
-                value={config.up_level_period}
-                id="up_level_period"
-                onChange={(e) =>
-                  updateConfig({ up_level_period: Number(e.target.value) })
-                }
-                className="accent-indigo-500 w-7 h-7 text-center"
+                type="checkbox"
+                checked={config.is_junior}
+                id="is_junior"
+                onChange={(e) => updateConfig({ is_junior: e.target.checked })}
+                className="accent-indigo-500 w-7 h-4"
               />
-              <label htmlFor="up_level_period" className="text-sm">
-                Uplevel on Streak
+              <label htmlFor="is_junior" className="text-sm">
+                Trình độ mẫu giáo ( cộng trừ số nhỏ )
               </label>
             </div>
 
             {/* Train Type */}
-            <div>
-              <label className="block text-sm mb-1">Train Type</label>
-              <select
-                value={config.train_type}
-                onChange={(e) =>
-                  updateConfig({ train_type: e.target.value as TrainType })
-                }
-                className="w-full border rounded px-2 py-1 outline-none"
-              >
-                <option value="basic">Basic</option>
-                <option value="advanced">Advanced</option>
-              </select>
-            </div>
+            {!config.is_junior && (
+              <div>
+                <label className="block text-sm mb-1 font-bold">
+                  Dạng bài tập
+                </label>
+                <div className="flex items-center gap-2">
+                  <CheckboxGroup
+                    selectedValues={config.train_type}
+                    options={[
+                      {
+                        label: "Nhân",
+                        value: TRAIN_TYPES.MULTIPLY,
+                      },
+                      {
+                        label: "Chia",
+                        value: TRAIN_TYPES.DIVIDE,
+                      },
+                      {
+                        label: "Số trăm",
+                        value: TRAIN_TYPES.HUNDRED_OPERATION,
+                      },
+                    ]}
+                    onChange={(value) =>
+                      updateConfig({ train_type: value as TRAIN_TYPES[] })
+                    }
+                  />
+                </div>
+              </div>
+            )}
 
             <button
               onClick={handleClearState}
               className="w-full  text-white rounded py-1.5 text-sm bg-sky-600 py-2 px-4 text-sm text-white data-[hover]:bg-sky-500 data-[active]:bg-sky-700"
             >
-              Clear Progress
+              Xoá chuỗi
             </button>
 
             <button
               onClick={clearConfig}
               className="w-full bg-neutral-500 hover:bg-neutral-600 text-white rounded py-1.5 text-sm"
             >
-              Clear Config
+              Đặt lại
             </button>
           </div>
         </Popover.Panel>

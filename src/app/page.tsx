@@ -1,11 +1,12 @@
 "use client";
 
 import Cheering from "@/components/Cheering";
-import MultiplicationTable from "@/components/MultiplicationTable";
+import SimpleMathTrainTable from "@/components/SimpleMathTrainTable";
 import { useAppContext } from "@/context/AppContext";
 import { useConfig } from "@/context/ConfigContext";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
+import cx from "classnames";
 
 export default function Home() {
   const { bgColor, correctTimes } = useAppContext();
@@ -22,13 +23,15 @@ export default function Home() {
     }
   }, [correctTimes]);
 
+
   return (
     <div
       style={{ backgroundColor: bgColor || "#ffffff" }}
       className="transition-colors	duration-500	ease-in-out grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]"
     >
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <MultiplicationTable />
+        <SimpleMathTrainTable />
+        <p className={cx(["mt-7 text-5xl"])}>Con đã đúng {correctTimes} lần</p>
       </main>
       <AnimatePresence>
         <motion.div

@@ -1,12 +1,12 @@
 import { ModalProvider } from "@/context/ModalContext";
 import type { Metadata } from "next";
-import { Coiny } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { AppProvider } from "@/context/AppContext";
 import ConfigPopover from "@/components/ConfigPopover";
 import { ConfigProvider } from "@/context/ConfigContext";
 
-const coinyFont = Coiny({
+const MontserratFont = Montserrat({
   weight: ["400"],
 });
 
@@ -22,15 +22,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${coinyFont.className} antialiased`}>
-        <ConfigProvider>
-          <AppProvider>
-            <div className="absolute top-4 right-4">
-              <ConfigPopover />
-            </div>
-            <ModalProvider>{children}</ModalProvider>
-          </AppProvider>
-        </ConfigProvider>
+      <body className={`${MontserratFont.className} antialiased`}>
+        <div>
+          <ConfigProvider>
+            <AppProvider>
+              <div className="absolute top-4 right-4">
+                <ConfigPopover />
+              </div>
+              <ModalProvider>{children}</ModalProvider>
+            </AppProvider>
+          </ConfigProvider>
+        </div>
       </body>
     </html>
   );
