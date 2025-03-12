@@ -2,19 +2,11 @@
 import { Input } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import { useAppContext } from "@/context/AppContext";
-import useGenerateMath, { MathProblem } from "@/hooks/useGenerateMath";
 
-const trainningNumbers = [2, 3, 4, 5];
 const SimpleMathTrainTable = () => {
-  const { generateProblem } = useGenerateMath();
-  const [mathProblem, setMathProblem] = useState<MathProblem>();
-  const { handleSuccess } = useAppContext();
+  const { handleSuccess, mathProblem } = useAppContext();
   const [inputTxt, setInputTxt] = useState<string>("");
 
-  // Randomly select a trainning number from the provided array on component mount
-  useEffect(() => {
-    setMathProblem(generateProblem());
-  }, []);
 
   // const handleCelebrate = () => {
   //   confetti({ particleCount: 150, spread: 60 });
@@ -24,7 +16,6 @@ const SimpleMathTrainTable = () => {
     if (mathProblem?.correctAnswer === parseInt(inputTxt)) {
       // Correct answer
       setInputTxt("");
-      setMathProblem(generateProblem());
       handleSuccess();
     }
     return;

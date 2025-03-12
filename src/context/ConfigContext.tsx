@@ -15,6 +15,7 @@ interface AppConfig {
   up_level_period: number;
   count_finished: number;
   is_junior: boolean;
+  multiplication_numbers: string[];
   train_type: TRAIN_TYPES[];
 }
 
@@ -30,6 +31,7 @@ const defaultConfig: AppConfig = {
   train_type: [TRAIN_TYPES.MULTIPLY],
   is_junior: false,
   count_finished: 30,
+  multiplication_numbers: ["2", "3", "4", "5", "6", "7", "8", "9"],
   up_level_period: 3,
 };
 

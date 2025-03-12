@@ -9,15 +9,18 @@ import {
 } from "react";
 import confetti from "canvas-confetti";
 import { useConfig } from "./ConfigContext";
+import { MathProblem, useGenerateMath } from "@/hooks/useGenerateMath";
 
 interface AppState {
   correctTimes: number;
   incorrectTimes: number;
+  mathProblem?: MathProblem;
 }
 interface AppContextProps extends AppState {
   handleSuccess: () => void;
   handleClearState: () => void;
   bgColor: string;
+  background: string;
 }
 
 const colors = [
@@ -28,6 +31,15 @@ const colors = [
   "#007aff",
   "#af52de",
 ]; // High contrast colors
+
+const backgroundImgs = [
+  "/bg_1.jpg",
+  "/bg_2.jpg",
+  "/bg_3.jpg",
+  "/bg_4.jpg",
+  "/bg_5.jpg",
+  "/bg_6.jpg",
+];
 
 const AppContext = createContext<AppContextProps | undefined>(undefined);
 const PERSISTENT_STATE_KEY = "kid_math_state";
@@ -43,16 +55,31 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
   const { config } = useConfig();
+  const { generateProblem } = useGenerateMath();
   const [appState, setAppState] = useState<AppState>(() => {
-    if (!config.persist_progress) return defaultState;
+    if (!config.persist_progress)
+      return { ...defaultState, mathProblem: generateProblem() };
     const persistState = localStorage.getItem(PERSISTENT_STATE_KEY);
-    return persistState ? JSON.parse(persistState) : defaultState;
+    const lastState = JSON.parse(`${persistState}`);
+    return persistState
+      ? {
+          ...lastState,
+          mathProblem: lastState?.mathProblem || generateProblem(),
+        }
+      : { ...defaultState, mathProblem: generateProblem() };
   });
 
   useEffect(() => {
     if (!config.persist_progress) return;
     localStorage.setItem(PERSISTENT_STATE_KEY, JSON.stringify(appState));
   }, [appState]);
+
+  useEffect(() => {
+    setAppState((prev) => ({
+      ...prev,
+      mathProblem: generateProblem(),
+    }));
+  }, [config.multiplication_numbers, config.train_type, config.is_junior]);
 
   const startCelebration = () => {
     confetti({
@@ -65,13 +92,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       origin: { y: 0.6 }, // Adjust where confetti starts
       shapes: [pineapple, crown, bomb],
     });
-
-    // Move to the next color in the list, looping back to start if at the end
-    // setColorIndex((prevIndex) => (prevIndex + 1) % colors.length);
   };
 
   const handleSuccess = () => {
-    setAppState((prev) => ({ ...prev, correctTimes: prev.correctTimes + 1 }));
+    setAppState((prev) => ({
+      ...prev,
+      correctTimes: prev.correctTimes + 1,
+      mathProblem: generateProblem(),
+    }));
     if (config.enable_celebrity) {
       startCelebration();
     }
@@ -82,6 +110,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       value={{
         ...appState,
         handleSuccess,
+        background: backgroundImgs[2],
         bgColor: colors[0],
         handleClearState: () => {
           setAppState(defaultState);

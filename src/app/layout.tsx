@@ -26,7 +26,7 @@ export default function RootLayout({
         <div>
           <ConfigProvider>
             <AppProvider>
-              <div className="absolute top-4 right-4">
+              <div style={{zIndex:1}} className="absolute top-4 right-4">
                 <ConfigPopover />
               </div>
               <ModalProvider>{children}</ModalProvider>

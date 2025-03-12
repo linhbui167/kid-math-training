@@ -11,7 +11,11 @@ interface CheckboxGroupProps {
   onChange: (values: string[]) => void;
 }
 
-const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ options, selectedValues, onChange }) => {
+const CheckboxGroup: React.FC<CheckboxGroupProps> = ({
+  options,
+  selectedValues,
+  onChange,
+}) => {
   const [selected, setSelected] = useState<string[]>(selectedValues || []);
 
   const handleSelection = (value: string) => {
@@ -23,9 +27,12 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ options, selectedValues, 
   };
 
   return (
-    <div className="space-y-2">
+    <>
       {options.map((option) => (
-        <label key={option.value} className="flex items-center space-x-2 cursor-pointer">
+        <label
+          key={option.value}
+          className="flex items-center space-x-2 cursor-pointer"
+        >
           <input
             type="checkbox"
             checked={selected.includes(option.value)}
@@ -35,7 +42,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = ({ options, selectedValues, 
           <span>{option.label}</span>
         </label>
       ))}
-    </div>
+    </>
   );
 };
 

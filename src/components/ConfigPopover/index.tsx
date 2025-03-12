@@ -7,11 +7,14 @@ import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Fragment, useRef } from "react";
 import CheckboxGroup from "../CheckboxGroup";
 import { TRAIN_TYPES } from "@/utils/const";
+import { div } from "framer-motion/client";
 
 export default function ConfigPopover() {
   const { handleClearState } = useAppContext();
   const ref = useRef(null);
   const { config, updateConfig, clearConfig } = useConfig();
+
+  console.log(config);
 
   return (
     <Popover className="relative" ref={ref}>
@@ -30,7 +33,7 @@ export default function ConfigPopover() {
       >
         <Popover.Panel
           style={{ color: "rgb(64 64 64)" }}
-          className="absolute right-0 z-10 mt-2 w-100 bg-white shadow-xl rounded-xl border border-gray-200 p-4"
+          className="absolute right-0 z-10 mt-2 w-120 bg-white shadow-xl rounded-xl border border-gray-200 p-4"
         >
           <div className="flex justify-between items-center mb-4">
             <span className="font-semibold text-gray-700">App Config</span>
@@ -117,11 +120,11 @@ export default function ConfigPopover() {
 
             {/* Train Type */}
             {!config.is_junior && (
-              <div>
+              <div key={Math.random()}>
                 <label className="block text-sm mb-1 font-bold">
                   Dạng bài tập
                 </label>
-                <div className="flex items-center gap-2">
+                <div className="flex text-sm items-center gap-2 mt-2 ">
                   <CheckboxGroup
                     selectedValues={config.train_type}
                     options={[
@@ -139,10 +142,38 @@ export default function ConfigPopover() {
                       },
                     ]}
                     onChange={(value) =>
-                      updateConfig({ train_type: value as TRAIN_TYPES[] })
+                      updateConfig({
+                        train_type: value?.length
+                          ? (value as TRAIN_TYPES[])
+                          : [TRAIN_TYPES.MULTIPLY],
+                      })
                     }
                   />
                 </div>
+                {(config.train_type.includes(TRAIN_TYPES.DIVIDE) ||
+                  config.train_type.includes(TRAIN_TYPES.MULTIPLY)) && (
+                  <div className="mt-2">
+                    <label className="block text-sm mb-1 font-bold">
+                      Đối số
+                    </label>
+                    <div className="flex text-sm gap-2 space-x-2 mt-2">
+                      <CheckboxGroup
+                        selectedValues={config.multiplication_numbers || []}
+                        options={new Array(8).fill(0).map((_, i) => ({
+                          label: `${i + 2}`,
+                          value: `${i + 2}`,
+                        }))}
+                        onChange={(value) => {
+                          updateConfig({
+                            multiplication_numbers: value?.length
+                              ? value
+                              : ["2"],
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 

@@ -11,7 +11,7 @@ export interface MathProblem {
 /**
  * Custom hook for generating a math operation and handling input
  */
-const useGenerateMath = () => {
+export const useGenerateMath = () => {
   const { config } = useConfig();
   // Junior only show add + subtract
   const allowedOperations: OPERATION[] = !config.is_junior
@@ -19,7 +19,7 @@ const useGenerateMath = () => {
         if (type === TRAIN_TYPES.MULTIPLY) {
           acc.push(OPERATION.MULTIPLY);
         } else if (type === TRAIN_TYPES.DIVIDE) {
-          acc.push(OPERATION.MULTIPLY);
+          acc.push(OPERATION.DIVIDE);
         } else if (type === TRAIN_TYPES.HUNDRED_OPERATION) {
           acc.push(OPERATION.ADD);
           acc.push(OPERATION.SUBTRACT);
@@ -30,7 +30,7 @@ const useGenerateMath = () => {
 
   const generateInputNumbers = (operation: OPERATION): number[] => {
     let num1, num2;
-    const { is_junior } = config;
+    const { is_junior, multiplication_numbers } = config;
     let randomSimpleResult = is_junior
       ? Math.floor(Math.random() * 10) + 1
       : Math.floor(Math.random() * 999) + 1;
@@ -53,12 +53,21 @@ const useGenerateMath = () => {
         num2 = num1 - randomSimpleResult;
         break;
       case OPERATION.MULTIPLY:
-        num1 = Math.max(Math.floor(Math.random() * 10) + 1, 2);
+        Math.random();
+        num1 = Number(
+          multiplication_numbers[
+            Math.floor(Math.random() * multiplication_numbers.length)
+          ]
+        );
         num2 = Math.max(Math.floor(Math.random() * 10) + 1, 2);
         break;
       case OPERATION.DIVIDE:
         num1 = Math.max(Math.floor(Math.random() * 10) + 1, 2);
-        num2 = Math.max(Math.floor(Math.random() * 10) + 1, 2);
+        num2 = Number(
+          multiplication_numbers[
+            Math.floor(Math.random() * multiplication_numbers.length)
+          ]
+        );
         break;
       default:
         return [];
