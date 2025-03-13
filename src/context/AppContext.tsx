@@ -15,6 +15,7 @@ import { MathProblem, useGenerateMath } from "@/hooks/useGenerateMath";
 interface AppState {
   correctTimes: number;
   incorrectTimes: number;
+  problemHistory?: Set<MathProblem>;
   mathProblem?: MathProblem;
 }
 interface AppContextProps extends AppState {

@@ -1,6 +1,8 @@
 import { useConfig } from "@/context/ConfigContext";
 import { OPERATION, TRAIN_TYPES } from "@/utils/const";
+import LimitedSet from "@/utils/LimitedSet";
 
+const MAX_REMEMBER_CALCULATIONS = 6;
 export interface MathProblem {
   num1: number;
   num2: number;
@@ -13,6 +15,7 @@ export interface MathProblem {
  */
 export const useGenerateMath = () => {
   const { config } = useConfig();
+  const historyProblem = new LimitedSet(MAX_REMEMBER_CALCULATIONS);
   // Junior only show add + subtract
   const allowedOperations: OPERATION[] = !config.is_junior
     ? config.train_type.reduce(function (acc: OPERATION[], type) {
@@ -93,7 +96,16 @@ export const useGenerateMath = () => {
     } else {
       correctAnswer = num1 + num2;
     }
-    return { num1, num2, operation, correctAnswer } as MathProblem;
+    const tmpProblem = { num1, num2, operation, correctAnswer };
+    if (
+      historyProblem.has(tmpProblem) &&
+      historyProblem.size() < MAX_REMEMBER_CALCULATIONS
+    ) {
+      return generateProblem();
+    } else {
+      historyProblem.add(tmpProblem);
+      return tmpProblem;
+    }
   };
 
   return {
