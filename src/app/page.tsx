@@ -33,6 +33,10 @@ export default function Home() {
             width: "100%",
             height: "100%",
             position: "absolute",
+            backgroundSize: "cover",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            zIndex: -1,
           }}
         >
           <p

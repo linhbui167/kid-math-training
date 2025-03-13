@@ -84,10 +84,9 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
 
   const startCelebration = () => {
     confetti({
-      particleCount: 200,
       spread: 100,
       scalar: 3,
-      ticks: 500,
+      ticks: 200,
       gravity: 1.5,
       startVelocity: 90,
       origin: { y: 0.6 }, // Adjust where confetti starts
