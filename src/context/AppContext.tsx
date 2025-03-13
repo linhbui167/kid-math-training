@@ -113,7 +113,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
         background: backgroundImgs[2],
         bgColor: colors[0],
         handleClearState: () => {
-          setAppState(defaultState);
+          setAppState((prev) => ({ ...prev, ...defaultState }));
         },
       }}
     >

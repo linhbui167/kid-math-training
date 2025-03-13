@@ -4,7 +4,6 @@ import Cheering from "@/components/Cheering";
 import SimpleMathTrainTable from "@/components/SimpleMathTrainTable";
 import { useAppContext } from "@/context/AppContext";
 import { useConfig } from "@/context/ConfigContext";
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import cx from "classnames";
 

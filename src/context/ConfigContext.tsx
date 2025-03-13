@@ -9,7 +9,7 @@ import React, {
   ReactNode,
 } from "react";
 
-interface AppConfig {
+export interface AppConfig {
   enable_celebrity: boolean;
   persist_progress: boolean;
   up_level_period: number;
@@ -25,7 +25,7 @@ interface ConfigContextProps {
   clearConfig: () => void;
 }
 
-const defaultConfig: AppConfig = {
+export const defaultConfig: AppConfig = {
   enable_celebrity: true,
   persist_progress: false,
   train_type: [TRAIN_TYPES.MULTIPLY],
