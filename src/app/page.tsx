@@ -20,7 +20,7 @@ export default function Home() {
         setShowCherring(false);
       }, 4000);
     }
-  }, [correctTimes]);
+  }, [correctTimes, config.up_level_period]);
 
   const isComplete = correctTimes >= config.count_finished;
   return (

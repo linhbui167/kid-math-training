@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import {
@@ -47,9 +48,9 @@ const defaultState: AppState = {
   correctTimes: 0,
   incorrectTimes: 0,
 };
-const pineapple = confetti.shapeFromText({ text: "🍍", scalar: 2 });
-const crown = confetti.shapeFromText({ text: "👑", scalar: 2 });
-const bomb = confetti.shapeFromText({ text: "💣", scalar: 2 });
+// const pineapple = confetti.shapeFromText({ text: "🍍", scalar: 2 });
+// const crown = confetti.shapeFromText({ text: "👑", scalar: 2 });
+// const bomb = confetti.shapeFromText({ text: "💣", scalar: 2 });
 
 export const AppProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -90,7 +91,6 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({
       gravity: 1.5,
       startVelocity: 90,
       origin: { y: 0.6 }, // Adjust where confetti starts
-      shapes: [pineapple, crown, bomb],
     });
   };
 

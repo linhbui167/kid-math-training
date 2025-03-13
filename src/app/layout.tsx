@@ -8,6 +8,7 @@ import { ConfigProvider } from "@/context/ConfigContext";
 
 const MontserratFont = Montserrat({
   weight: ["400"],
+  subsets: ['vietnamese']
 });
 
 export const metadata: Metadata = {

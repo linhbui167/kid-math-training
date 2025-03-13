@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import { Input } from "@headlessui/react";
 import { useEffect, useState } from "react";

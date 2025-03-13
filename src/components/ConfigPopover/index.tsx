@@ -4,7 +4,7 @@ import { useAppContext } from "@/context/AppContext";
 import { AppConfig, defaultConfig, useConfig } from "@/context/ConfigContext";
 import { Popover, Transition } from "@headlessui/react";
 import { Cog6ToothIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 import CheckboxGroup from "../CheckboxGroup";
 import { TRAIN_TYPES } from "@/utils/const";
 
